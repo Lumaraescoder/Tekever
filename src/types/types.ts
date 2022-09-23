@@ -1,4 +1,5 @@
 export type Pokemon = {
+ amount: number;
  id?: number;
  name?: string;
  url?: string;

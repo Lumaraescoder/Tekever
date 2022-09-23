@@ -7,18 +7,21 @@ import Link from "next/link";
 
 type Props = {
   item: Pokemon;
+  handleaddToFavorites: (clickedItem: Pokemon) => void;
 };
 
-const Item: React.FC<Props> = ({ item }) => (
+export const Item: React.FC<Props> = ({ item, handleaddToFavorites }) => (
   <div className={styles.wrapper}>
     <img className={styles.img} />
     <div className={styles.div}>
-      <h3 className={styles.title}>{item.name}</h3>
-      <Link key={item.id} href={`/pokemons/${item.id}`}>
+      <h3 className={styles.title}>{item?.name}</h3>
+      <Link key={item?.id} href={`/pokemons/${item?.id}`}>
         <a className={styles.link}>Details</a>
       </Link>
     </div>
-    <Button className={styles.button}>Add to Favorites</Button>
+    <Button className={styles.button} onClick={() => handleaddToFavorites(item)}>
+      Add to Favorites
+    </Button>
   </div>
 );
 

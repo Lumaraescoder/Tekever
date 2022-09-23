@@ -7,3 +7,6 @@ export function findId(data: IPokemon | undefined) {
  })) as Pokemon[];
  return pokemonid;
 }
+
+export const getTotalItems = (items: Pokemon[]) =>
+items.reduce((ack: number, item) => ack + item.amount, 0);
