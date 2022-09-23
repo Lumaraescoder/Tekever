@@ -1,4 +1,5 @@
 export type Pokemon = {
+ sprites: any;
  amount: number;
  id?: number;
  name?: string;
@@ -6,5 +7,6 @@ export type Pokemon = {
 }
 
 export type IPokemon = {
+  url: string;
   results: Pokemon[];
 }
