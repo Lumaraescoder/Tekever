@@ -1,18 +1,22 @@
-import { render, screen } from "@testing-library/react";
-import Home from "../pages/index";
 import "@testing-library/jest-dom";
-import { createRoot } from "react-dom/client";
+import { render, screen } from "@testing-library/react";
+import List from "./List";
+import findId from "./List";
 import { QueryClient, QueryClientProvider } from "react-query";
 
-describe("Home", () => {
-  const client = new QueryClient();
 
-  it("renders a heading", () => {
+
+
+const client = new QueryClient();
+
+describe("List", () => {
+  it("renders a without crashing", () => {
     const component = render(
       <QueryClientProvider client={client}>
-        <Home />
+        <List />
       </QueryClientProvider>
     );
     expect(component).toBeTruthy();
   });
+
 });
