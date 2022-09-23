@@ -1,28 +1,41 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Pokemon, IPokemon } from "../../types/types";
 import { useQuery } from "react-query";
-import { Drawer, LinearProgress, Grid, Badge } from "@material-ui/core";
+import { Drawer, Grid, Badge, LinearProgress } from "@material-ui/core";
 import Item from "../Pokemons/Pokemons";
-import { findId, getTotalItems } from "../../helpers/helpers";
 import Favorites from "../Favorites/Favorites";
-import { getPokemons } from "../../utils/utils";
+import { getTotalItems } from "../../utils/utils";
+import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 
-// Fetching pokemon data from the API
-
-
-// maping api data and add id for each pokemon object
 function DataTable() {
   const [FavoriteOpen, setFavoriteOpen] = useState(false);
   const [FavoriteItems, setFavoriteItems] = useState([] as Pokemon[]);
-  // Getting the data using React-query
-  const { data } = useQuery<IPokemon>("id", getPokemons);
-  // render  pokemons  in the cart
+  const [pokemonInfo, setPokemonInfo] = useState([] as Pokemon[]);
 
+  // Getting the data using React-query
+  const { isLoading, error } = useQuery("pokemon", () => {
+    const pokemonData = fetch(
+      "https://pokeapi.co/api/v2/pokemon?limit=10&offset=0"
+    )
+      .then((res) => res.json())
+      .then((response) => fetchPokemonData(response.results));
+    return pokemonData;
+  });
+
+  // render  pokemons  in the Favorites
+  const fetchPokemonData = (response: IPokemon[]) => {
+    response.map((dataPokemon) => {
+      fetch(dataPokemon.url)
+        .then((res) => res.json())
+        .then((res) => setPokemonInfo((pre) => [...pre, res]));
+    });
+  };
+  // add to Favorites
   const handleaddToFavorites = (clickedItem: Pokemon) => {
     setFavoriteItems((prev) => {
       //1. is item already added in the favorites?
-      const isItemInCart = prev.find((item) => item.id === clickedItem.id);
-      if (isItemInCart) {
+      const isItemInFavorite = prev.find((item) => item.id === clickedItem.id);
+      if (isItemInFavorite) {
         return prev.map((item) =>
           item.id === clickedItem.id
             ? { ...item, amount: item.amount + 1 }
@@ -33,6 +46,9 @@ function DataTable() {
       return [...prev, { ...clickedItem, amount: 1 }];
     });
   };
+
+  if (isLoading) return <LinearProgress />;
+  if (error) return <div>Something went wrong ...</div>;
   return (
     <div>
       <Drawer
@@ -45,11 +61,12 @@ function DataTable() {
           FavoriteItems={FavoriteItems}
         />
       </Drawer>
+      Favorites
       <button onClick={() => setFavoriteOpen(true)}>
         <Badge badgeContent={getTotalItems(FavoriteItems)}></Badge>
       </button>
       <Grid container spacing={3}>
-        {findId(data)?.map((item: Pokemon) => {
+        {pokemonInfo.map((item: Pokemon) => {
           return (
             <Grid item key={item.id} xs={12} sm={4}>
               <Item item={item} handleaddToFavorites={handleaddToFavorites} />
