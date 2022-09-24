@@ -2,8 +2,6 @@ import "@testing-library/jest-dom";
 import { render } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import Item from './Item';
-
-
 const client = new QueryClient();
 
 describe("Item", () => {
@@ -15,6 +13,4 @@ describe("Item", () => {
     );
     expect(component).toBeTruthy();
   });
-
-
 });

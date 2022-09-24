@@ -31,5 +31,3 @@ export async function getAbilities(url: string, id: any) {
  return { effect, shortEffect };
 }
 
-export const getTotalItems = (items: Pokemon[]) =>
- items.reduce((ack: number, item) => ack + item.amount, 0);
