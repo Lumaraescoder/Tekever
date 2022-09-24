@@ -13,4 +13,4 @@ npm run tests
 Open [http://localhost:3000](http://localhost:3000) with you
 r browser to see the result.
 
-![Alt Text](https://github.com/Lumaraescoder/front-end/Tekever/main/ezgif.com-gif-maker.gif)
+![Alt Text](https://github.com/Lumaraescoder/Tekever/blob/main/ezgif.com-gif-maker.giff)
