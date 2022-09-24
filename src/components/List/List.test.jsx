@@ -3,7 +3,7 @@ import { render } from "@testing-library/react";
 import List from "./List";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { FetchingData } from './List';
-import { renderHook, act } from '@testing-library/react-hooks';
+import { renderHook, act } from '@testing-library/react'
 
 const client = new QueryClient();
 
