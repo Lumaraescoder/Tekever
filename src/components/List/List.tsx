@@ -4,18 +4,15 @@ import { useQuery } from "react-query";
 import { Drawer, Grid, Badge, LinearProgress } from "@material-ui/core";
 import Item from "../Pokemons/Pokemons";
 import Favorites from "../Favorites/Favorites";
-import { getTotalItems } from "../../utils/utils";
-import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
+import { getTotalItems } from "../../helpers/helpers";
 
-function DataTable() {
-  const [FavoriteOpen, setFavoriteOpen] = useState(false);
-  const [FavoriteItems, setFavoriteItems] = useState([] as Pokemon[]);
+export const FetchingData = () => {
   const [pokemonInfo, setPokemonInfo] = useState([] as Pokemon[]);
 
   // Getting the data using React-query
   const { isLoading, error } = useQuery("pokemon", () => {
     const pokemonData = fetch(
-      "https://pokeapi.co/api/v2/pokemon?limit=10&offset=0"
+      "https://pokeapi.co/api/v2/pokemon?limit=10&offset=1"
     )
       .then((res) => res.json())
       .then((response) => fetchPokemonData(response.results));
@@ -30,7 +27,18 @@ function DataTable() {
         .then((res) => setPokemonInfo((pre) => [...pre, res]));
     });
   };
-  // add to Favorites
+
+  return {
+    fetchPokemonData,
+    isLoading,
+    error,
+    pokemonInfo,
+  };
+};
+const AddToFavorites = () => {
+  const [favoriteItems, setFavoriteItems] = useState([] as Pokemon[]);
+  const [favoriteOpen, setFavoriteOpen] = useState(false);
+
   const handleaddToFavorites = (clickedItem: Pokemon) => {
     setFavoriteItems((prev) => {
       //1. is item already added in the favorites?
@@ -46,24 +54,28 @@ function DataTable() {
       return [...prev, { ...clickedItem, amount: 1 }];
     });
   };
-
+  return { favoriteOpen, favoriteItems, setFavoriteOpen, handleaddToFavorites }
+}
+const DataTable: React.FC = () => {
+  const { pokemonInfo, fetchPokemonData, isLoading, error, } = FetchingData();
+  const { favoriteOpen, favoriteItems, setFavoriteOpen, handleaddToFavorites } = AddToFavorites();
   if (isLoading) return <LinearProgress />;
   if (error) return <div>Something went wrong ...</div>;
   return (
     <div>
       <Drawer
         anchor="right"
-        open={FavoriteOpen}
+        open={favoriteOpen}
         onClose={() => setFavoriteOpen(false)}
       >
         <Favorites
           addToFavorites={handleaddToFavorites}
-          FavoriteItems={FavoriteItems}
+          FavoriteItems={favoriteItems}
         />
       </Drawer>
       Favorites
       <button onClick={() => setFavoriteOpen(true)}>
-        <Badge badgeContent={getTotalItems(FavoriteItems)}></Badge>
+        <Badge badgeContent={getTotalItems(favoriteItems)}></Badge>
       </button>
       <Grid container spacing={3}>
         {pokemonInfo.map((item: Pokemon) => {

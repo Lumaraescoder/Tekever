@@ -1,6 +1,7 @@
 import React from "react";
 import { Pokemon } from "../../types/types";
 import styles from "./item.module.css";
+
 type Props = {
   item: Pokemon;
   addToFavorites: (clickedItem: Pokemon) => void;
@@ -12,6 +13,7 @@ const ItemFavorites: React.FC<Props> = ({ item, addToFavorites }) => {
       <div>
       <h3>{item?.name}</h3>
       <div className={styles.information}>
+        <img src={item?.sprites?.front_default}></img>
       </div>
       <div className="buttons">
         <button

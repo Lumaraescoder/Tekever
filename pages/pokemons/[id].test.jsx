@@ -1,15 +1,15 @@
+import { render, screen } from "@testing-library/react";
+import  Pokemon  from "./[id]";
 import "@testing-library/jest-dom";
-import { render } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "react-query";
-import Favorites from './Favorites';
 
-const client = new QueryClient();
+describe("Pokemon", () => {
+  const client = new QueryClient();
 
-describe("Favorites", () => {
-  it("renders a without crashing", () => {
+  it("renders a heading", () => {
     const component = render(
       <QueryClientProvider client={client}>
-        <Favorites />
+        <wwwwa />
       </QueryClientProvider>
     );
     expect(component).toBeTruthy();

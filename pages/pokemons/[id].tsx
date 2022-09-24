@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { useQuery } from "react-query";
-import CardPokemon from "@components/PokemonCard/PokemonCard";
+import CardPokemon from '../../src/components/PokemonCard/PokemonCard'
 import { makeStyles } from "@material-ui/core/styles";
 import { getInfo } from "../../src/utils/utils";
 
@@ -13,7 +12,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const Pokemon = () => {
+export const Pokemon = () => {
   const router = useRouter();
   let id = router.query.id;
   const [url, setUrl] = useState();
@@ -32,7 +31,6 @@ const Pokemon = () => {
       setEffect(res.effect);
       setShortEffect(res.shortEffect);
     };
-
     data();
   }, [id]);
 

@@ -7,6 +7,7 @@ type Props = {
   FavoriteItems: Pokemon[];
   addToFavorites: (clickedItem: Pokemon) => void;
 };
+
 const Favorites: React.FC<Props> = ({ FavoriteItems, addToFavorites }) => {
   return (
     <div className={styles.wrapper}>
